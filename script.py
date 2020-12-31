@@ -1,13 +1,16 @@
+#!/usr/bin/python3
 # coding: utf-8
+import sys
 import os
 import requests
 import re
 from html.parser import HTMLParser
 from datetime import datetime
-from config import COOKIES, WEBHOOK_URL
+from config import COOKIE, WEBHOOK_URL
 
 TOP_URL = "https://p.eagate.573.jp/game/card_connect/1/omikuji/index.html"
 OMIKUJI_URL = "https://p.eagate.573.jp/game/card_connect/1/omikuji/exe.html&token_val="
+COOKIES = {'M573SSID': COOKIE}
 
 
 class Parser(HTMLParser):
@@ -30,6 +33,9 @@ parser = Parser()
 parser.feed(r.text)
 parser.close()
 print("token is " + parser.token)
+if parser.token == "":
+    print("fail to get token")
+    sys.exit()
 
 r = requests.get("{}?gtype={}".format(OMIKUJI_URL+parser.token, type), cookies=COOKIES)
 if r.url.startswith('https://p.eagate.573.jp/game/card_connect/1/error/commonerror.html'):
