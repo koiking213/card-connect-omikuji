@@ -1,0 +1,17 @@
+### SAM specific
+packaged-template.yml
+.aws-sam/
+samconfig.toml
+
+### common
+node_modules/
+.idea/
+
+### vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
