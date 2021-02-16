@@ -1,0 +1,15 @@
+{
+    "name": "omikuji",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "cd dependencies/ && npm i && rsync -av node_modules/ ../node_modules/ && cd ../ && npx mocha"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "mocha": "^8.2.1"
+    }
+}

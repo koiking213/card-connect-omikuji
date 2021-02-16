@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'omikuji application'
+
+Parameters:
+  USERID:
+    Type: String
+  PASSWORD:
+    Type: String
+
+Resources:
+  OmikujiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Layers:
+        - !Ref OmikujiDepLayer
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Timeout: 120
+      MemorySize: 1024
+      Environment:
+        Variables:
+          USER_ID: !Ref USERID
+          PASSWORD: !Ref PASSWORD      
+      Events:
+        Omikuji:
+          Type: Schedule
+          Properties:
+            Schedule: cron(* 0/2 * * ? *)
+
+  OmikujiDepLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: omikuji-function-dependencies
+      Description: Dependencies for sam app OmikujiFunction
+      ContentUri: dependencies/
+      CompatibleRuntimes:
+        - nodejs14.x
+      LicenseInfo: 'MIT'
+      RetentionPolicy: Retain
+    Metadata:
+      BuildMethod: nodejs14.x
+
+Outputs:
+  OmikujiFunction:
+    Description: OmikujiFunction ARN
+    Value:
+      Fn::GetAtt:
+        - OmikujiFunction
+        - Arn
