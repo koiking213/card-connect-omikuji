@@ -28,8 +28,8 @@ const runPuppeteer =
             console.log(await page.title());
             console.log(await page.url());
 
-            const link_clicker = async (text) => {
-                const linkHandlers = await page.$x(`//a[contains(text(), "${text}")]`);
+            const login_link_clicker = async (text) => {
+                const linkHandlers = await page.$x(`//*[@id="container"]//a[contains(text(), "${text}")]`);
                 if (linkHandlers.length > 0) {
                     await linkHandlers[0].click();
                 } else {
@@ -37,7 +37,7 @@ const runPuppeteer =
                 }
             };
 
-            await link_clicker("ログイン");
+            await login_link_clicker("ログイン");
             console.log("login clicked");
 
             const input_user_id = '#id_userId';
