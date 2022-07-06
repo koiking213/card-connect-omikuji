@@ -1,4 +1,3 @@
-const puppeteer = require('puppeteer-core');
 const chromium = require('chrome-aws-lambda');
 
 class Credential {
@@ -9,20 +8,29 @@ class Credential {
 }
 
 // for Mac
-const chromeLocalPath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const getChromeLocalPath = () => {
+    if (process.env.PLATFORM === 'Linux') {
+        return '/usr/bin/chromium-browser';
+    } else {
+        return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+    }
+};
+const chromeLocalPath = getChromeLocalPath();
 
 const runPuppeteer =
     async (isLocal = false) => {
         const credential = new Credential(process.env.USER_ID, process.env.PASSWORD);
 
-        const browser = await puppeteer.launch({
+        const browser = await chromium.puppeteer.launch({
             args: chromium.args,
             defaultViewport: chromium.defaultViewport,
-            executablePath: isLocal ? chromeLocalPath : await chromium.executablePath,
-            headless: isLocal ? false : chromium.headless,
+            executablePath:  chromeLocalPath , //: await chromium.executablePath,
+            headless: true,
+            ignoreHTTPSErrors: true,
         });
         try {
             const page = await browser.newPage();
+            page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");            
             await page.goto('https://p.eagate.573.jp/game/card_connect/1/omikuji/index.html');
 
             console.log(await page.title());
@@ -40,11 +48,14 @@ const runPuppeteer =
             await login_link_clicker("ログイン");
             console.log("login clicked");
 
+            await page.waitForTimeout(1000);
             const input_user_id = '#id_userId';
             await page.waitForSelector(input_user_id);
             await page.type(input_user_id, credential.username);
+            await page.waitForTimeout(1000);
             const input_password = '#id_password';
             await page.type(input_password, credential.password);
+            await page.waitForTimeout(1000);
             await page.click('p.submit');
 
             const omikuji_wrapper_id = '#omikuji';

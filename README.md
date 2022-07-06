@@ -2,7 +2,7 @@
 
 ## Deploy
 
-Install AWS SAM and setup your AWS profile.
+Install [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) and setup your AWS profile.
 
 Replace `<your-user-id>` and `<your-password>`.
 Hit enter for the first deploy (make sure the region is `ap-northeast-1`).
@@ -18,4 +18,11 @@ If your machine is not a Mac, change local Chrome path to yours.
 
 ```bash
 USER_ID=<your-user-id> PASSWORD=<your-password> npm run test
+```
+
+For Linux (Ubuntu) machine, 
+
+```bash
+sudo apt-get -y install chromium-browser
+PLATFORM=Linux USER_ID=<your-user-id> PASSWORD=<your-password> npm run test
 ```

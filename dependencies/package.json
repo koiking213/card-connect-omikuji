@@ -1,6 +1,6 @@
 {
   "name": "omikuji-layer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -8,8 +8,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chrome-aws-lambda": "7.0.0",
-    "image-hash": "^4.0.1",
-    "puppeteer-core": "7.0.1"
+    "chrome-aws-lambda": "10.1.0",
+    "image-hash": "^5.3.1",
+    "puppeteer-core": "10.1.0"
   }
 }
