@@ -24,12 +24,13 @@ const runPuppeteer =
         const browser = await chromium.puppeteer.launch({
             args: chromium.args,
             defaultViewport: chromium.defaultViewport,
-            executablePath: isLocal ? chromeLocalPath : await chromium.executablePath,
-            headless: isLocal ? false : chromium.headless,
+            executablePath:  chromeLocalPath , //: await chromium.executablePath,
+            headless: true,
             ignoreHTTPSErrors: true,
         });
         try {
             const page = await browser.newPage();
+            page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");            
             await page.goto('https://p.eagate.573.jp/game/card_connect/1/omikuji/index.html');
 
             console.log(await page.title());
